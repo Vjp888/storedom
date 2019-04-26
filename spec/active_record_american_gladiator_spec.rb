@@ -109,7 +109,7 @@ describe "ActiveRecord American Gladiator" do
   end
 
   context "The Eliminator" do
-    xit "returns all orders placed 2 weeks ago" do
+    it "returns all orders placed 2 weeks ago" do
       last_week = Date.today.last_week
       two_weeks_ago = Date.today.last_week - 7.days
 
@@ -120,9 +120,10 @@ describe "ActiveRecord American Gladiator" do
       order_5 = Order.create(created_at: two_weeks_ago + 2.days)
 
       # Changeable Start
-      orders = Order.all.select do |order|
-        order.created_at >= two_weeks_ago && order.created_at <= last_week
-      end
+      # orders = Order.all.select do |order|
+      #   order.created_at >= two_weeks_ago && order.created_at <= last_week
+      # end
+      orders = Order.where(created_at: two_weeks_ago..last_week)
       # Changeable End
 
       expect(orders).to eq([order_1, order_3, order_5])
@@ -131,7 +132,7 @@ describe "ActiveRecord American Gladiator" do
 
   context "Atlasphere" do
     # This one is challenging.
-    xit "returns most popular items" do
+    it "returns most popular items" do
       scoring_pod = Item.create(name: "Scoring Pod")
       lights      = Item.create(name: "Lights")
       smoke       = Item.create(name: "Smoke")
